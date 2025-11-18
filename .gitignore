@@ -1,0 +1,45 @@
+# Node dependencies
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Build artifacts and temp files
+dist/
+build/
+tmp/
+temp/
+
+# Coverage reports
+coverage/
+
+# Optional: uploads or generated assets
+uploads/
+public/uploads/
+*.sqlite
+
+# EJS cache (if used)
+*.ejs.cache
