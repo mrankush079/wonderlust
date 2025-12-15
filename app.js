@@ -1,5 +1,10 @@
 // app.js
 
+
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
+
+
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
@@ -25,6 +30,10 @@ app.use (express.urlencoded({extended:true}))
 app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
+
+
+app.use("/uploads", express.static("uploads"));
+
 
 app.get("/", (req, res) => {
   res.send("Hi, I am root");
@@ -54,16 +63,44 @@ app.get ("/listings/:id", async (req, res) =>{
 });
 
 // create Route
-app.use(express.urlencoded({ extended: true }));
+// //app.use(express.urlencoded({ extended: true }));
 
-app.post("/listings", async (req, res) => {
-  const listing = req.body.listing;
-  console.log("Received listing:", listing);
+// app.post("/listings", async (req, res) => {
+//   const listing = req.body.listing;
+//   console.log("Received listing:", listing);
 
-  const newListing = new Listing(listing);
-  await newListing.save();
-  res.redirect("/listings");
-});
+//   const newListing = new Listing(listing);
+//   await newListing.save();
+//   res.redirect("/listings");
+// });
+
+app.post(
+  "/listings",
+  upload.single("listing[image]"),
+  async (req, res) => {
+
+    const listingData = req.body.listing;
+
+    if (!req.file) {
+      return res.status(400).send("Image upload required");
+    }
+
+    const newListing = new Listing(listingData);
+
+    // 👇 IMPORTANT PART
+    newListing.image = {
+      url: `/uploads/${req.file.filename}`,
+      filename: req.file.filename
+    };
+
+    await newListing.save();
+    res.redirect("/listings");
+  }
+);
+
+
+
+
 
 //Edit Route
 
