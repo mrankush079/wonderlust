@@ -12,6 +12,7 @@ const Listing = require("./models/listing.js");
 const { request } = require("http");
 const methodOverride = require ("method-override");
 const ejsMate = require ("ejs-mate");
+const wrapAsync = require("./utils/wrapAsync.js");
 
 const app = express();
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
@@ -63,40 +64,46 @@ app.get ("/listings/:id", async (req, res) =>{
 });
 
 // create Route
-// //app.use(express.urlencoded({ extended: true }));
 
-// app.post("/listings", async (req, res) => {
-//   const listing = req.body.listing;
-//   console.log("Received listing:", listing);
 
-//   const newListing = new Listing(listing);
-//   await newListing.save();
-//   res.redirect("/listings");
-// });
 
-app.post(
-  "/listings",
-  upload.single("listing[image]"),
-  async (req, res) => {
+// create Route
 
-    const listingData = req.body.listing;
-
-    if (!req.file) {
-      return res.status(400).send("Image upload required");
-    }
-
-    const newListing = new Listing(listingData);
-
-    // 👇 IMPORTANT PART
-    newListing.image = {
-      url: `/uploads/${req.file.filename}`,
-      filename: req.file.filename
-    };
-
+app.use ("/listing", 
+  wrapAsync(async (req, res, next) => {
+ 
+    const newListing = new Listing(req.body.Listing);
     await newListing.save();
-    res.redirect("/listings");
-  }
-);
+    res.redirect("/listing");
+}));
+
+
+
+
+
+// app.post(
+//   "/listings",
+//   upload.single("listing[image]"),
+//   async (req, res) => {
+
+//     const listingData = req.body.listing;
+
+//     if (!req.file) {
+//       return res.status(400).send("Image upload required");
+//     }
+
+//     const newListing = new Listing(listingData);
+
+//     // 👇 IMPORTANT PART
+//     newListing.image = {
+//       url: `/uploads/${req.file.filename}`,
+//       filename: req.file.filename
+//     };
+
+//     await newListing.save();
+//     res.redirect("/listings");
+//   }
+// );
 
 
 
@@ -135,6 +142,10 @@ app.delete("/listings/:id", async (req, res)=>{
 //   res.redirect("/listings");
 // });
 
+
+app.use ((req, res, next)=> {
+  res.send("somethng was wrong!");
+})
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
