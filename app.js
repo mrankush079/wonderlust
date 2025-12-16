@@ -13,6 +13,7 @@ const { request } = require("http");
 const methodOverride = require ("method-override");
 const ejsMate = require ("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
+const ExpressError = require("./utils/ExpressError.js");
 
 const app = express();
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
@@ -143,8 +144,14 @@ app.delete("/listings/:id", async (req, res)=>{
 // });
 
 
+app.all("/{*splat}", (req, res, next)=>{
+  next(new ExpressError(404, "Page Not Found ! "));
+
+})
+
 app.use ((req, res, next)=> {
-  res.send("somethng was wrong!");
+  let {statusCode, message} = err;
+  res.status(statusCode).send(message);
 })
 
 const port = process.env.PORT || 8080;
