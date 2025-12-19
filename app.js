@@ -14,6 +14,7 @@ const methodOverride = require ("method-override");
 const ejsMate = require ("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
+const {listingschema} =require("./schema.js");
 
 const app = express();
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
@@ -65,48 +66,56 @@ app.get ("/listings/:id", wrapAsync(async (req, res) =>{
 }));
 
 // create Route
+app.post(
+  "/listings",
+  upload.single("listing[image]"),
+  wrapAsync(async (req, res) => {
 
+    // run validation
+    const { error } = listingschema.validate(req.body);
+    if (error) {
+      const msg = error.details.map(el => el.message).join(", ");
+      throw new ExpressError(400, msg);
+    }
 
+    // Prepare new listing
+    const listingData = req.body.listing;
+    const newListing = new Listing(listingData);
 
-// create Route
+    // If image uploaded, attach its data
+    if (req.file) {
+      newListing.image = {
+        url: `/uploads/${req.file.filename}`,
+        filename: req.file.filename,
+      };
+    }
 
-app.use ("/listing", 
-  wrapAsync(async (req, res, next) => {
-  if(!req.body.listing) {
-    throw new ExpressError(400,"send valid data for listing");
-  }
-    const newListing = new Listing(req.body.Listing);
     await newListing.save();
-    res.redirect("/listing");
-}));
+
+    // Redirect to listings list
+    res.redirect("/listings");
+  })
+);
 
 
 
+// // create Route
 
+// app.use ("/listing", 
+//   wrapAsync(async (req, res, next) => {
+//     let result= listingschema.validate(req.body);
+//     console.log(result);
 
-// app.post(
-//   "/listings",
-//   upload.single("listing[image]"),
-//   async (req, res) => {
-
-//     const listingData = req.body.listing;
-
-//     if (!req.file) {
-//       return res.status(400).send("Image upload required");
-//     }
-
-//     const newListing = new Listing(listingData);
-
-//     // 👇 IMPORTANT PART
-//     newListing.image = {
-//       url: `/uploads/${req.file.filename}`,
-//       filename: req.file.filename
-//     };
+//     const newListing = new Listing(req.body.Listing);
 
 //     await newListing.save();
-//     res.redirect("/listings");
-//   }
-// );
+//     res.redirect("/listing");
+// }));
+
+
+
+
+
 
 
 
@@ -142,18 +151,6 @@ app.delete("/listings/:id", wrapAsync(async (req, res)=>{
 
 
 
-// app.post("/listings", async (req, res) => {
-//   const newlisting = new Listing(req.body.listing);
-//   await newlisting.save();
-//   res.redirect("/listings");
-// });
-
-
-// app.all("*", (req, res, next)=>{
-//   next(new ExpressError(404, "Page Not Found ! "));
-
-// });
-
 app.all(/.*/, (req, res, next) => {
   next(new ExpressError(404, "Page Not Found!"));
 });
@@ -163,7 +160,7 @@ app.all(/.*/, (req, res, next) => {
 app.use ((err, req, res, next)=> {
   let {statusCode=500, message="Something went wrong!"} = err;
   res.status(statusCode).render("error.ejs",{message});
-  // res.status(statusCode).send(message);
+
 });
 
 const port = process.env.PORT || 8080;
