@@ -1,7 +1,7 @@
 // Importing mongoose
 const mongoose = require("mongoose");
-const review = require("./review");
 const Schema = mongoose.Schema;
+const Review = require("./review.js");
 
 
 // Destructuring Schema from mongoose
@@ -22,6 +22,12 @@ const listingSchema = new Schema({
     },
 
   ]
+});
+
+listingSchema.post("findOneAndDelete", async (listing) =>{
+  if(listing) {
+  await Review.deleteMany({_id : {$in: listing.reviews}});
+ }
 });
 
 module.exports = mongoose.model("Listing", listingSchema);
