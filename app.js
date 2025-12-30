@@ -14,11 +14,13 @@ const methodOverride = require ("method-override");
 const ejsMate = require ("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const {listingschema} =require("./schema.js");
+const {listingschema, reviewSchema} =require("./schema.js");
 const Review = require("./models/review.js");
 
 
 const listings = require("./routes/listing.js");
+const reviews = require ("./routes/review.js");
+
 
 const app = express();
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
@@ -50,37 +52,9 @@ app.get("/", (req, res) => {
 
 app.use("/listings",listings);
 
-// //Reviews
-// //Post Review Route
-
-app.post("/listings/:id/reviews", async (req, res) => {
-
-    let listing = await Listing.findById(req.params.id);
-
-    let newReview = new Review(req.body.review);
-
-    listing.reviews.push(newReview);  // push the new review
-
-    await newReview.save();   // SAVE the review
-    await listing.save();     // SAVE the listing
-
-  res.redirect(`/listings/${listing._id}`);
-
-});
+app.use("/listings/:id/reviews",reviews);
 
 
-//Delete review Route
-
-app.delete(
-  "/listings/:id/reviews/:reviewId",
-  wrapAsync(async (req, res)=>{
-    let  {id, reviewId }= req.params;
-
-    await Listing.findByIdAndUpdate(id, {$pull : {reviews : reviewId}}); 
-    await Review.findByIdAndDelete(reviewId);
-    res.redirect(`/listings/${id}`);
-  })
-);
 
 
 

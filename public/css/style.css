@@ -138,3 +138,33 @@ body {
     padding-left: 0;
     padding-right: 0;
 }
+
+
+
+
+
+
+/* reviews star ui*/
+
+
+.star-rating {*
+  direction: rtl;
+  display: inline-flex;
+  font-size: 1.6rem;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #f5b301;
+}
