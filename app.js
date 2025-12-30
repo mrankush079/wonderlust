@@ -1,21 +1,15 @@
 // app.js
 
 
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
-
 
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
-const Listing = require("./models/listing.js");
-const { request } = require("http");
 const methodOverride = require ("method-override");
 const ejsMate = require ("ejs-mate");
-const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const {listingschema, reviewSchema} =require("./schema.js");
-const Review = require("./models/review.js");
+
+
 
 
 const listings = require("./routes/listing.js");
@@ -48,16 +42,9 @@ app.get("/", (req, res) => {
   res.send("Hi, I am root");
 });
 
-
-
 app.use("/listings",listings);
 
 app.use("/listings/:id/reviews",reviews);
-
-
-
-
-
 
 app.all(/.*/, (req, res, next) => {
   next(new ExpressError(404, "Page Not Found!"));

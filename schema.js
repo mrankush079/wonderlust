@@ -11,3 +11,7 @@ module.exports.listingschema = Joi.object({
     image: Joi.string().allow("", null),
   }).required(),
 });
+
+
+
+
