@@ -8,7 +8,7 @@ const path = require("path");
 const methodOverride = require ("method-override");
 const ejsMate = require ("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
-
+const session = require("express-session");
 
 
 
@@ -35,7 +35,16 @@ app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
 
 
-app.use("/uploads", express.static("uploads"));
+// app.use("/uploads", express.static("uploads"));
+
+const sessionOptions = {
+  secret : "mysupersecretcode",
+  resave: false,
+  SaveUninitialized : true
+};
+
+
+app.use(session(sessionOptions));
 
 
 app.get("/", (req, res) => {
