@@ -9,6 +9,8 @@ const Listing = require("../models/listing.js");
 
 
 
+
+
 const validationListing= (req, res, next ) => {
   let {error} = listingschema.validate(req.body);
 
@@ -48,28 +50,34 @@ router.get ("/:id", wrapAsync(async (req, res) =>{
 
 //create Route
 router.post(
-  "/", validationListing,
+  "/", 
+  validationListing,
   wrapAsync(async (req, res, next) => {
     const newListing = new Listing(req.body.listing);
     await newListing.save();
-    req.flash("success", "New Listing Created !");
+    req.flash("success", "New Listing Created!");
     res.redirect("/listings");
+    next();
   }));
 
 //Edit Route
 
-router.get ("/:id/edit", wrapAsync(async (req, res) => {
+router.get
+ ("/:id/edit",
+   wrapAsync(async (req, res) => {
    let {id} = req.params;
   const listing = await Listing.findById(id);
   res.render("listings/edit.ejs", { listing});
 }));
 
 //update Route
-router.put("/:id", 
+router.put( 
+  "/:id", 
   validationListing,
   wrapAsync(async (req, res)=>{
   let {id} = req.params;
   await Listing.findByIdAndUpdate(id, {...req.body.listing});
+   req.flash("success", "Listing Updated!");
   res.redirect(`/listings/${id}`);
 }));
 
@@ -79,6 +87,7 @@ router.delete("/:id", wrapAsync(async (req, res)=>{
   let {id} = req.params;
  let deletedListing = await Listing.findByIdAndDelete(id);
  console.log(deletedListing);
+  req.flash("success", "Listing Deleted!");
  res.redirect("/listings");
 
 }));
@@ -86,6 +95,3 @@ router.delete("/:id", wrapAsync(async (req, res)=>{
 
 
 module.exports = router;
-
-
-

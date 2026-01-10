@@ -13,6 +13,7 @@ const flash = require ("connect-flash");
 
 
 
+
 const listings = require("./routes/listing.js");
 const reviews = require ("./routes/review.js");
 
@@ -28,6 +29,8 @@ main().catch((err) => {
   console.error("Error connecting to DB:", err);
 });
 
+
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use (express.urlencoded({extended:true}))
@@ -36,7 +39,8 @@ app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
 
 
-// app.use("/uploads", express.static("uploads"));
+
+app.use("/uploads", express.static("uploads"));
 
 const sessionOptions = {
   secret : "mysupersecretcode",
@@ -84,3 +88,7 @@ const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
+
+
+
+

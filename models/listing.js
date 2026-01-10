@@ -38,3 +38,4 @@ const Listing = mongoose.model("Listing", listingSchema);
 
 // Exporting the Listing model
 module.exports = Listing;
+
