@@ -36,6 +36,6 @@ module.exports = mongoose.model("Listing", listingSchema);
 // Creating the Listing model
 const Listing = mongoose.model("Listing", listingSchema);
 
-// Exporting the Listing model
+
 module.exports = Listing;
 
