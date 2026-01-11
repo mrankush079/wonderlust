@@ -3,6 +3,7 @@
 
 
 const express = require("express");
+const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require ("method-override");
@@ -10,15 +11,18 @@ const ejsMate = require ("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
 const flash = require ("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require ("./models/User.js");
 
 
 
 
 const listings = require("./routes/listing.js");
 const reviews = require ("./routes/review.js");
+const { register } = require("module");
 
 
-const app = express();
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 
 async function main() {
@@ -30,6 +34,14 @@ main().catch((err) => {
 });
 
 
+
+// main()
+// .then(() =>{
+//   console.log("connect to DB");
+// })
+// .catch((err)=> {
+//   console.log(err);
+// });
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -61,6 +73,13 @@ app.get("/", (req, res) => {
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 app.use ((req, res, next)=>{
   res.locals.success= req.flash("success");
@@ -69,8 +88,16 @@ app.use ((req, res, next)=>{
 });
 
 
-app.use("/listings",listings);
+app.get("/demouser", async (req, res) => {
+  let fakeUser = new User ({
+    email : "ankush@9359",
+    username: "codeanksh",
+  });
+let registeredUser = await User.register(fakeUser, "935977");
+res.send(registeredUser);
+});
 
+app.use("/listings",listings);
 app.use("/listings/:id/reviews",reviews);
 
 app.all(/.*/, (req, res, next) => {

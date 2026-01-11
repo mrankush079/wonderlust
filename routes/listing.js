@@ -62,7 +62,6 @@ router.post(
     await newListing.save();
     req.flash("success", "New Listing Created!");
     res.redirect("/listings");
-    next();
   }));
 
 //Edit Route
