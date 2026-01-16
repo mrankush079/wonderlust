@@ -1,4 +1,9 @@
 const Listing = require("./models/listing");
+const {listingschema, reviewSchema} =require("./schema.js");
+const ExpressError = require("./utils/ExpressError.js");
+
+
+//Validation Middleware for isLoggedIn of User
 
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -9,12 +14,16 @@ module.exports.isLoggedIn = (req, res, next) => {
   next();
 };
 
+//Validation Middleware for saving redirect URL
+
 module.exports.saveRedirectUrl = async (req, res, next) => {
   if (req.session.redirectUrl) {
     res.locals.redirectUrl = req.session.redirectUrl;
   }
   next();
 };
+
+//Validation Middleware for isOwner of Listing
 module.exports.isOwner = async (req, res, next) => {
   const { id } = req.params;
   const listing = await Listing.findById(id);
@@ -23,4 +32,35 @@ module.exports.isOwner = async (req, res, next) => {
     return res.redirect(`/listings/${id}`);
   }
   next();
+}
+
+
+
+//Validation Middleware for Listingschema
+
+module.exports.validationListing= (req, res, next ) => {
+  let {error} = listingschema.validate(req.body);
+
+  if(error){
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(400, errMsg);
+  }else{
+    next();
+  }
+
+}
+
+
+//Validation Middleware for Review
+
+module.exports.validationReview= (req, res, next ) => {
+  let {error} = reviewSchema.validate(req.body);
+
+  if(error){
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(400, errMsg);
+  }else{
+    next();
+  }
+
 }
