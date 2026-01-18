@@ -4,7 +4,7 @@ const ExpressError = require("../utils/ExpressError.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const Review = require("../models/review.js");
 const Listing = require("../models/listing.js");
-const { validationReview, isLoggedIn,} = require("../middleware.js");
+const { validationReview, isLoggedIn, isReviewAuthor,} = require("../middleware.js");
 
 //Validation Middleware for Review
 
@@ -36,6 +36,8 @@ router.post("/",
 
 router.delete(
   "/:reviewId",
+  isLoggedIn,
+  isReviewAuthor,
   wrapAsync(async (req, res)=>{
     let  {id, reviewId }= req.params;
 

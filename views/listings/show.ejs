@@ -58,9 +58,11 @@
 
   <!-- Reviews Section -->
 
+
+
  <div class="col-8 offset-3 mb-3">
   <hr>
-    <% if (currUser) { %>
+   <% if (currUser) { %>
   <h4>Leave A Review</h4>
   <form action="/listings/<%= listing.id %>/reviews" method="POST">
     <div class="mb-3 mt-3">
@@ -113,7 +115,7 @@
     <div class="card col-5 ms-3 mb-3">
       <div class="card-body">
 
-        <h5 class="card-title">User</h5>
+        <h5 class="card-title">@<%= review.author.username %></h5>
 
         <!-- STAR DISPLAY -->
         <p class="mb-1">
