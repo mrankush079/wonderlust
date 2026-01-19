@@ -7,19 +7,13 @@ const { isLoggedIn, isOwner, validationListing } = require("../middleware.js");
 
 
 
-
+const listingController = require("../controllers/listing.js");
 
 
 // index route
-router.get("/", wrapAsync(async (req, res) => {
-  try {
-    const allListings = await Listing.find({});
-    res.render("listings/index", { allListings });
-  } catch (err) {
-    console.error("Error fetching listings:", err);
-    res.status(500).send("Internal Server Error");
-  }
-}));
+router.get("/", 
+  wrapAsync(listingController.index)
+);
 
 //new Routes 
 
