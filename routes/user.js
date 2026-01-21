@@ -9,25 +9,16 @@ const userController = require("../controllers/users..js");
 
 // Route to render the signup page
 
-  router.get("/signup",
-     userController.renderSignupForm );
+  router.route("/signup")
+  .get (userController.renderSignupForm )
+  .post( wrapAsync(userController.signup));
 
-
-
-  // Routes set for store user POST-User Signup
-  router.post(
-    "/signup", 
-    wrapAsync(userController.signup)
-  );
 
 // Route to render the login page
-  router.get("/login", 
-    userController.renderLoginForm );
-
-
-  router.post(
-    "/login",
-    saveRedirectUrl,
+  router.route("/login")
+  .get( userController.renderLoginForm )
+  
+  .post(saveRedirectUrl,
     passport.authenticate("local", {
       failureFlash: true,
       failureRedirect: "/login",
