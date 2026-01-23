@@ -5,6 +5,10 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const Listing = require("../models/listing.js");
 const { isLoggedIn, isOwner, validationListing } = require("../middleware.js");
 
+// use multer for file uploads parsing
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
 
 const listingController = require("../controllers/listing.js");
 
@@ -16,9 +20,15 @@ router.route("/")
 
 .get ( wrapAsync (listingController.index))
 
-.post ( isLoggedIn,  validationListing, wrapAsync  (listingController.createListing));
+// .post ( 
+  // isLoggedIn, 
+  //  validationListing,
+  //   wrapAsync  (
+  //     listingController.createListing));
 
-
+.post(upload.single('listing[image]'), (req, res) => {
+  res.send(req.file);
+});  
 //new Routes 
 
 router.get("/new", isLoggedIn, listingController.renderNewForm);
