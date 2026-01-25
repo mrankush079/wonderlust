@@ -23,8 +23,13 @@
                         </div>
                         <div class="mb-3">
                             <label for="image" class="form-label">Original Listing Image</label><br>
-                            <img style="border-radius: 1rem;" src="<%=  %>">
+                            <img src="<%= originalImageUrl %>">
                         </div>
+
+                        <!-- <div class="mb-3">
+                           <image src="<%= originalImageUrl %>" alt="Listing Image" class="img-thumbnail mb-2" />  
+                        </div> -->
+
                         <div class="mb-3">
                             <label for="image" class="form-label"> Upload New Image</label>
                             <input name="listing[image]" type="file" class="form-control" id="image" />
