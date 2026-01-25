@@ -23,18 +23,13 @@ router.route("/")
 
 .get ( wrapAsync (listingController.index))
 
-// .post ( 
-  // isLoggedIn, 
-  //  validationListing,
-  //   wrapAsync  (
-  //     listingController.createListing));
-
-.post(
-  upload.single
-  ('listing[image]'), 
-  (req, res) => {
-  res.send(req.file);
-});  
+.post ( 
+  isLoggedIn, 
+   upload.single('listing[image]'), 
+    validationListing,
+    wrapAsync  (
+      listingController.createListing));
+  
 //new Routes 
 
 router.get("/new", isLoggedIn, listingController.renderNewForm);
