@@ -183,6 +183,94 @@ map{
 
 
 
+/* Wrapper */
+#filter-wrapper {
+  position: relative;
+  padding: 0.5rem 2.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+/* Horizontal scroll container */
+#filters-container {
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+}
+
+#filters-container::-webkit-scrollbar {
+  display: none; /* Chrome */
+}
+
+/* Filters row */
+#filters {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* Each filter */
+.filter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 70px;
+  padding: 0.5rem 0.3rem;
+  color: #717171;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+}
+
+/* Icon */
+.filter i {
+  font-size: 1.4rem;
+  margin-bottom: 0.3rem;
+}
+
+/* Text */
+.filter p {
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Hover */
+.filter:hover {
+  color: #000;
+  border-bottom: 2px solid #ddd;
+  transform: translateY(-2px);
+}
+
+/* Active / Selected filter */
+.filter.active {
+  color: #000;
+  border-bottom: 2px solid #000;
+}
+
+/* Scroll buttons */
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.left-btn {
+  left: 5px;
+}
+
+.right-btn {
+  right: 5px;
+}
 
 
 

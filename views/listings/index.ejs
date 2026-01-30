@@ -4,33 +4,7 @@
         <div id="filter-wrapper">
             <button class="scroll-btn left-btn"><i class="fa-solid fa-less-than"></i></button>
             <div id="filters-container">
-
-
-
-
-            <style>
-                #filters {
-    display: flex;
-    flex-wrap: wrap;
-
-}
-
-.filter{
-    text-align: center;
-    margin-right: 2rem;
-    margin-right: 1rem;
-    opacity: 0.7;
-}
-
-.filter:hover{
-    opacity: 1;
-    cursor: pointer;
-}
-.filter p{
-    font-size: 0.8 rem;
-}
-
-            </style>    
+  
                 <div id="filters">
                     <div class="filter">
                         <!-- <a href="/listings/filter/Rooms"> -->
@@ -171,6 +145,14 @@
             </div>
         </div>
 
+        
+
+
+
+
+
+
+
         <div class="row row-cols-lg-4 row-cols-adjust">
             <% for(let listing of allListings) { %>
                 <a href="/listings/<%= listing._id%>" class="listing-link" style="text-decoration: none;">
@@ -189,6 +171,7 @@
                     </div>
                 </a>
                 <% } %>
+                <script src="/js/filters.js"></script>
  </body>
 
 
