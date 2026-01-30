@@ -176,9 +176,26 @@
 
 
 
+<script>  
 
+  const taxToggle = document.getElementById('flexSwitchCheckDefault');
+  const listingPrices = document.querySelectorAll('.listing-card-text');
 
+  taxToggle.addEventListener('change', function() {
+    if (this.checked) {
+      listingPrices.forEach(price => {
+        const originalPrice = price.textContent.split(' / night')[0];
+        const tax = parseFloat(originalPrice.replace(/[^0-9.]/g, '')) * 0.18;
+        const newPrice = parseFloat(originalPrice.replace(/[^0-9.]/g, '')) + tax;
+        price.innerHTML = `${originalPrice} / night<br><i class="tax-info">&nbsp; &nbsp; + 18% GST</i>`;
+      });
+    } else {
+      listingPrices.forEach(price => {
+        price.innerHTML = price.innerHTML.split('<br><i class="tax-info">&nbsp; &nbsp; + 18% GST</i>')[0];
+      });
+    }
+  });
 
-
+  </script>
 
 
