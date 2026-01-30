@@ -178,26 +178,43 @@ map{
     margin-bottom: 2rem;
 }
 
-/* nav icons style*/
 
 
 
 
-/* Wrapper */
-#filter-wrapper {
-  position: relative;
-  padding: 0.5rem 2.5rem;
+
+
+
+/* ================= FILTER BAR LAYOUT ================= */
+
+#filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 2rem;
   border-bottom: 1px solid #eee;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* Horizontal scroll container */
+/* Left side (icons section) */
+#filter-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 0; /* CRITICAL: prevents overflow */
+  padding: 0.5rem 3rem;
+}
+
+/* Scroll container */
 #filters-container {
   overflow-x: auto;
-  scrollbar-width: none; /* Firefox */
+  white-space: nowrap;
+  scrollbar-width: none;
+  position: relative;
 }
 
 #filters-container::-webkit-scrollbar {
-  display: none; /* Chrome */
+  display: none;
 }
 
 /* Filters row */
@@ -205,7 +222,6 @@ map{
   display: flex;
   gap: 2rem;
   align-items: center;
-  white-space: nowrap;
 }
 
 /* Each filter */
@@ -241,91 +257,13 @@ map{
   transform: translateY(-2px);
 }
 
-/* Active / Selected filter */
+/* Active */
 .filter.active {
   color: #000;
   border-bottom: 2px solid #000;
 }
 
-/* Scroll buttons */
-.scroll-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 50%;
-  width: 34px;
-  height: 34px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}
-
-.left-btn {
-  left: 5px;
-}
-
-.right-btn {
-  right: 5px;
-}
-
-
-
-/* Responsive adjustments Tax-Bar */
-
-
-.tax-toggle {
-  display: flex;
-  justify-content: flex-end;
-  margin: 1rem 0;
-}
-
-.toggle-container {
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 0.6rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  transition: 0.2s ease;
-}
-
-.toggle-container:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-}
-
-/* Label */
-.form-check-label {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #222;
-  cursor: pointer;
-}
-
-/* Switch */
-.form-check-input {
-  width: 42px;
-  height: 22px;
-  cursor: pointer;
-}
-
-/* When checked */
-.form-check-input:checked {
-  background-color: #ff385c;   /* Airbnb pink */
-  border-color: #ff385c;
-}
-
-/* Remove ugly focus */
-.form-check-input:focus {
-  box-shadow: none;
-}
-
-
+/* ================= SCROLL ARROWS ================= */
 
 .scroll-btn {
   position: absolute;
@@ -348,69 +286,113 @@ map{
   z-index: 20;
 }
 
-/* Icons inside */
 .scroll-btn i {
   font-size: 1rem;
   color: #222;
   font-weight: 600;
 }
 
-/* Hover */
 .scroll-btn:hover {
   transform: translateY(-50%) scale(1.08);
-  box-shadow: 
-    0 8px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
-/* Click */
 .scroll-btn:active {
   transform: translateY(-50%) scale(0.95);
 }
 
-/* Position */
-.left-btn {
-  left: 10px;
+.left-btn { left: 5px; }
+.right-btn { right: 5px; }
+
+/* ================= TAX TOGGLE ================= */
+
+.tax-toggle {
+  flex-shrink: 0;
+  margin-left: 1rem;
 }
 
-.right-btn {
-  right: 10px;
-}
-
-
-
-
-#filter-wrapper {
-  position: relative;
-  padding: 0.5rem 3rem;
-}
-
-/* This is the key */
-#filters-container {
-  position: relative;
-}
-
-/* Arrow buttons */
-.scroll-btn {
-  position: absolute;
-  top: 50%;                  /* center relative to icon row */
-  transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  background: white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+.toggle-container {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 0.6rem 1rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.7rem;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: 0.2s ease;
+}
+
+.toggle-container:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.form-check-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #222;
   cursor: pointer;
-  z-index: 10;
 }
 
-.left-btn {
-  left: 5px;
+.form-check-input {
+  width: 42px;
+  height: 22px;
+  cursor: pointer;
 }
 
-.right-btn {
-  right: 5px;
+.form-check-input:checked {
+  background-color: #ff385c;
+  border-color: #ff385c;
 }
+
+.form-check-input:focus {
+  box-shadow: none;
+}
+
+/* ================= SEARCH BUTTON ================= */
+
+
+/* Outer container */
+.search-form {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 999px;
+  padding: 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+/* Input */
+.search-inp {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 10px 18px;
+  border-radius: 999px;
+  width: 280px;
+  font-size: 15px;
+}
+
+/* Button */
+.btn-search {
+  background-color: #fe424d !important;
+  color: #fff !important;
+  border-radius: 999px;
+  padding: 10px 20px;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  font-weight: 500;
+}
+
+/* Hover */
+.btn-search:hover {
+  opacity: 0.9;
+}
+
+
+
+
