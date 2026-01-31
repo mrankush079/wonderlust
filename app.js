@@ -13,6 +13,7 @@ const methodOverride = require ("method-override");
 const ejsMate = require ("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
+const { MongoStore } = require("connect-mongo");
 const flash = require ("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -33,13 +34,13 @@ const userRouter = require("./routes/user.js");
 const dbUrl = process.env.ATLASDB_URL;
 
 
-mongoose.connection.on("connected", () => {
-  console.log("✅ MongoDB connected");
-});
+// mongoose.connection.on("connected", () => {
+//   console.log("MongoDB connected");
+// });
 
-mongoose.connection.on("error", err => {
-  console.log("❌ MongoDB error:", err);
-});
+// mongoose.connection.on("error", err => {
+//   console.log(" MongoDB error:", err);
+// });
 
 
 
@@ -63,7 +64,29 @@ app.use(express.static(path.join(__dirname,"/public")));
 
 app.use("/uploads", express.static("uploads"));
 
+
+// const store = MongoStore.create({
+//   mongoUrl: dbUrl,
+//   touchAfter: 24 * 60 * 60,
+//   crypto: {
+//     secret: "mysupersecretcode"
+//   }
+// });
+
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret: "mysupersecretcode"
+  }
+});
+
+store.on("error", (err) => {
+  console.log("SESSION STORE ERROR", err);
+});
+
 const sessionOptions = {
+  store : store,
   secret : "mysupersecretcode",
   resave: false,
   saveUninitialized: true,
@@ -73,6 +96,7 @@ const sessionOptions = {
      httpOnly : true,
   },
 };
+
 
 // app.get("/", (req, res) => {
 //   res.send("Hi, I am root");
