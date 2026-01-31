@@ -77,7 +77,7 @@ const store = MongoStore.create({
   mongoUrl: dbUrl,
   touchAfter: 24 * 60 * 60,
   crypto: {
-    secret: "mysupersecretcode"
+    secret: process.env.SECRET,
   }
 });
 
@@ -87,7 +87,7 @@ store.on("error", (err) => {
 
 const sessionOptions = {
   store : store,
-  secret : "mysupersecretcode",
+  secret : process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
