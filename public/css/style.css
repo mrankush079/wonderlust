@@ -396,3 +396,102 @@ map{
 
 
 
+/* ================= FOOTER ================= */
+
+/* ===== Real Website Footer ===== */
+
+.site-footer {
+  background: #f7f7f7;
+  border-top: 1px solid #ddd;
+  margin-top: 80px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px 25px;
+}
+
+/* Top section */
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.footer-block h4 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: #222;
+}
+
+.footer-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.footer-item i {
+  color: #ff385c;
+}
+
+.footer-item a {
+  color: #0066ff;
+  text-decoration: none;
+}
+
+.footer-item a:hover {
+  text-decoration: underline;
+}
+
+/* Social */
+.footer-social {
+  display: flex;
+  gap: 15px;
+  margin-top: 5px;
+}
+
+.footer-social a {
+  font-size: 22px;
+  color: #555;
+  transition: 0.2s;
+}
+
+.footer-social a:hover {
+  color: #ff385c;
+  transform: scale(1.2);
+}
+
+/* Bottom */
+.footer-bottom {
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #444;
+}
+
+.footer-links {
+  margin-top: 8px;
+}
+
+.footer-links a {
+  margin: 0 8px;
+  color: #444;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .footer-top {
+    flex-direction: column;
+    gap: 25px;
+  }
+}
