@@ -1,7 +1,7 @@
 # 🌍 WanderLust – Full Stack Vacation Rental Platform 🏡
 
 🔗 **Live Demo:** https://wonderlusttravel.onrender.com/  
-📦 **GitHub Repository:** https://github.com/mrankush079/Wanderlust
+📦 **GitHub Repository:** https://github.com/mrankush079/wonderlust
 
 ---
 
